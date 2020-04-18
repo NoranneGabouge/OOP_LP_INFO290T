@@ -9,5 +9,4 @@ public class LinearProgramTest {
     public void aSimpleTest(){
         assertEquals(1+1,2);
     }
-
 }
