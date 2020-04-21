@@ -17,6 +17,11 @@ public class LinearProgram {
 
     public boolean hasFeasiblePoint(int[] binary,int[] integers,double[] scalars) {
         if ((binary.length==nbBinaryVar)&&(integers.length==nbIntegerVar)&&(scalars.length==nbRealVariables)){
+            for (int i=0;i<binary.length;i++){
+                if ((binary[i]<0)||(binary[i]>1)){
+                    return false;
+                }
+            }
             return true;
         }
         return false;
