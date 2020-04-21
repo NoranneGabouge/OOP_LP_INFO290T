@@ -94,6 +94,18 @@ public class LinearProgramTest {
         LPdCopy.addConstraints(constr1Copy);
         assertEquals(LPdCopy,LPd.relaxation());
     }
+    @Test
+    public void linearRelaxationOfLPdIsEqualToACopyOfLPdAfterMultiplyingConstraintByMinusTwo(){
+        LinearProgram LPd=new LinearProgram(0,0,1,Sense.MAX);
+        LPd.setObjective(new double[]{3});
+        Constraint constr1=new Constraint(new double[]{1},ConstraintSense.LESSTHAN, 2);
+        LPd.addConstraints(constr1);
+        LinearProgram LPdMultiplied=new LinearProgram(0,0,1,Sense.MAX);
+        LPdMultiplied.setObjective(new double[]{3});
+        Constraint constr1Multiplied=new Constraint(new double[]{-2},ConstraintSense.GREATERTHAN, -4);
+        LPdMultiplied.addConstraints(constr1Multiplied);
+        assertEquals(LPdMultiplied,LPd.relaxation());
+    }
 
 
 }
