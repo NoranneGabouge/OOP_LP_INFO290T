@@ -145,9 +145,9 @@ public class LinearProgramTest {
      */
     public void linearRelaxationOfLPeIsEqualToLPeRelax(){
         LinearProgram LPe=new LinearProgram(1,1,0,Sense.MAX);
-        LPe.setObjective(new double[]{3});
+        LPe.setObjective(new double[]{3,0});
         LinearProgram LPeRelax=new LinearProgram(0,0,2,Sense.MAX);
-        LPeRelax.setObjective(new double[]{3});
+        LPeRelax.setObjective(new double[]{3,0});
         Constraint xnonnegative=new Constraint(new double[]{1,0},ConstraintSense.GREATERTHAN, 0);
         Constraint xlessthanOne=new Constraint(new double[]{1,0},ConstraintSense.LESSTHAN, 1);
         LPeRelax.addConstraints(xnonnegative);
