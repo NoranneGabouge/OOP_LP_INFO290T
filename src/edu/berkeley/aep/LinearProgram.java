@@ -13,13 +13,15 @@ public class LinearProgram {
     private final int nbRealVar;
     private final Sense sense;
     private Set<Constraint> constraints;
+    private double[] objective;
 
     public LinearProgram(int nbBinaryVariables, int nbIntegerVariables, int nbRealVariables, Sense sense) {
         this.nbBinaryVar=nbBinaryVariables;
         this.nbIntegerVar=nbIntegerVariables;
         this.nbRealVar=nbRealVariables;
         this.sense=sense;
-        this.constraints=new HashSet<>();
+        this.constraints=new HashSet<>();//initialized to empty set of constraints
+        this.objective=new double[nbBinaryVar+nbIntegerVar+nbRealVar];//initialized to 0
     }
 
     public void addConstraints(Constraint constraint){
@@ -27,6 +29,9 @@ public class LinearProgram {
         this.constraints.add(constraint);
     }
 
+    public void setObjective(double[] costVector){
+        this.objective=costVector;
+    }
 
     public boolean hasFeasiblePoint(int[] binary,int[] integers,double[] scalars) {
         if ((binary.length==nbBinaryVar)&&(integers.length==nbIntegerVar)&&(scalars.length==nbRealVar)){

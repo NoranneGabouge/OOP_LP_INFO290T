@@ -24,4 +24,9 @@ public class LinearProgramTest {
         Constraint constra=new Constraint(new double[2],ConstraintSense.GREATERTHAN, 0);
         LPa.addConstraints(constra);
     }
+
+    @Test(expected = IllegalArgumentException.class )
+    public void addingACostVectorToLPaWithTwoCoeffsForBinaryVarsShouldThrowAnException(){
+        LPa.setObjective(new double[2]);
+    }
 }
