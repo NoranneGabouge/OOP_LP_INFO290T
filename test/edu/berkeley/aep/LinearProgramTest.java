@@ -25,8 +25,24 @@ public class LinearProgramTest {
         LPa.addConstraints(constra);
     }
 
-    @Test(expected = IllegalArgumentException.class )
+    @Test(expected = IllegalArgumentException.class)
     public void addingACostVectorToLPaWithTwoCoeffsForBinaryVarsShouldThrowAnException(){
         LPa.setObjective(new double[2]);
     }
+
+
+    @Test
+    /*LPb : min of x+y, integer variable x, real variable y, with constraints x>=0 and y>=0
+     */
+    public void minusOneminusOneNotFeasibleForLPb(){
+        LinearProgram LPb=new LinearProgram(0,1,1,Sense.MIN);
+        LPb.setObjective(new double[]{1,1});
+        Constraint xnonnegative=new Constraint(new double[]{1,0},ConstraintSense.GREATERTHAN, 0);
+        Constraint ynonnegative=new Constraint(new double[]{0,1},ConstraintSense.GREATERTHAN,  0);
+        LPb.addConstraints(xnonnegative);
+        LPb.addConstraints(ynonnegative);
+        assertFalse(LPb.hasFeasiblePoint(new int[0], new int[]{-1}, new double[]{-1}));
+    }
+
+
 }
