@@ -30,6 +30,7 @@ public class LinearProgram {
     }
 
     public void setObjective(double[] costVector){
+        if (costVector.length!=nbBinaryVar+nbIntegerVar+nbRealVar) throw new IllegalArgumentException("Dimension of cost vector does not match number of variables");
         this.objective=costVector;
     }
 
