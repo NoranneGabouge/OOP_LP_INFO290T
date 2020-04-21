@@ -155,6 +155,34 @@ public class LinearProgramTest {
         assertEquals(LPeRelax,LPe.relaxation());
     }
 
+
+    @Test
+    public void senseDoesNotMatterIfObjectiveIsZero(){
+        LinearProgram LP1=new LinearProgram(0,0,1,Sense.MAX);
+        LP1.setObjective(new double[]{0});
+        LinearProgram LP2=new LinearProgram(0,0,1,Sense.MIN);
+        LP2.setObjective(new double[]{0});
+        assertEquals(LP1,LP2);
+    }
+
+    @Test
+    public void senseDoesNotMatterIfgobalCoeffIsZero(){
+        LinearProgram LP1=new LinearProgram(0,0,1,Sense.MAX);
+        LP1.setObjective(new double[]{0});
+        LinearProgram LP2=new LinearProgram(0,0,1,Sense.MAX);
+        LP2.setObjective(new double[]{2},0);
+        assertEquals(LP1,LP2);
+    }
+
+
+    @Test
+    public void reversingObjectiveDoesNotChangeTheOptimizationProblem(){
+        LinearProgram LPe=new LinearProgram(0,0,2,Sense.MAX);
+        LPe.setObjective(new double[]{3,0});
+        LinearProgram LPeRelaxReverse=new LinearProgram(0,0,2,Sense.MIN);
+        LPeRelaxReverse.setObjective(new double[]{-3,0},-1);
+        assertEquals(LPeRelaxReverse,LPe);
+    }
     @Test
     /*
     LPeRelaxReverse min -3x
@@ -171,5 +199,6 @@ public class LinearProgramTest {
         LPeRelaxReverse.addConstraints(xlessthanOne);
         assertEquals(LPeRelaxReverse,LPe.relaxation());
     }
+
 
 }
