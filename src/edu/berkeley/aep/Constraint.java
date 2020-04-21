@@ -29,4 +29,22 @@ public class Constraint {
         }
         return (lhs <= rhs && sense == ConstraintSense.LESSTHAN) || (lhs >= rhs && sense == ConstraintSense.GREATERTHAN) || (lhs == rhs && sense == ConstraintSense.EQUALS);
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (!(other instanceof Constraint)) return false;
+        var otherConstraint=(Constraint) other;
+        for (int i=0; i<this.coefficients.length;i++){
+            if (!(Double.compare(otherConstraint.coefficients[i],coefficients[i])==0)) return false;
+        }
+        if (!(Double.compare(otherConstraint.rhs,rhs)==0)) return false;
+        if(!(sense==otherConstraint.sense)) return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return Integer.hashCode((int) (coefficients.length+rhs));
+    }
 }

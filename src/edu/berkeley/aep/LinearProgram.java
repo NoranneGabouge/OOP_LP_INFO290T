@@ -59,4 +59,37 @@ public class LinearProgram {
     public LinearProgram relaxation() {
         return this;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (!(other instanceof LinearProgram)) return false;
+        LinearProgram LP=(LinearProgram) other;
+        if ((!(LP.nbBinaryVar==nbBinaryVar)) || (!(LP.nbIntegerVar==nbIntegerVar))||(!(LP.nbRealVar==nbRealVar))||(!(LP.sense.equals(sense)))){
+            return false;
+        } else {
+            for (int i=0; i<this.objective.length;i++){
+                if (!(Double.compare(LP.objective[i],objective[i])==0)) return false;
+            }
+            var iterator=this.constraints.iterator();
+            var otheriterator=LP.constraints.iterator();
+            while((iterator.hasNext())&&(otheriterator.hasNext())){
+                var next=iterator.next();
+                var othernext=otheriterator.next();
+                if (next.equals(othernext)){
+                    iterator.remove();
+                    otheriterator.remove();
+                }
+                else{
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return Integer.hashCode(nbBinaryVar+nbIntegerVar+nbRealVar);
+    }
 }
