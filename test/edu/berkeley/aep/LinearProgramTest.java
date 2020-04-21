@@ -1,6 +1,7 @@
 package edu.berkeley.aep;
 
 import org.junit.Test;
+import org.junit.experimental.theories.suppliers.TestedOn;
 
 import static org.junit.Assert.*;
 
@@ -107,5 +108,10 @@ public class LinearProgramTest {
         assertEquals(LPdMultiplied,LPd.relaxation());
     }
 
-
+    @Test
+    public void twoCopiesOfTheSameConstraintShouldBeEqual(){
+        Constraint constr1=new Constraint(new double[]{1},ConstraintSense.LESSTHAN, 2);
+        Constraint constr1Copy=new Constraint(new double[]{1},ConstraintSense.LESSTHAN, 2);
+        assertEquals(constr1,constr1Copy);
+    }
 }

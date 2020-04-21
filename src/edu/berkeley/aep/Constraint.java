@@ -35,11 +35,23 @@ public class Constraint {
         if (this == other) return true;
         if (!(other instanceof Constraint)) return false;
         var otherConstraint=(Constraint) other;
-        for (int i=0; i<this.coefficients.length;i++){
-            if (!(Double.compare(otherConstraint.coefficients[i],coefficients[i])==0)) return false;
+        return this.isMultipleOf(otherConstraint);
+    }
+
+    public boolean isMultipleOf(Constraint other){
+        if (other.coefficients.length!=coefficients.length) return false;
+        double factor=0;
+        for (int i=0; i<coefficients.length;i++){
+            if ((factor==0)&&(coefficients[i]!=0)&&(other.coefficients[i]!=0)){
+                factor=coefficients[i]/other.coefficients[i];
+            } else{
+                if (Double.compare(factor*other.coefficients[i],coefficients[i])!=0) return false;
+            }
         }
-        if (!(Double.compare(otherConstraint.rhs,rhs)==0)) return false;
-        if(!(sense==otherConstraint.sense)) return false;
+        if ((factor!=0)&&(Double.compare(factor*other.rhs,rhs)!=0)) return false;
+        if (factor==0) return false;
+        if ((factor>0)&&(!(this.sense.equals(other.sense)))) return false;
+        if ((factor<0)&&(this.sense.equals(other.sense))) return false;
         return true;
     }
 
