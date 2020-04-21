@@ -14,4 +14,19 @@ public class Constraint {
     public int dimension(){
         return coefficients.length;
     }
+
+
+    public boolean satisfiedBy(int[] binary, int[] integers, double[] scalars) {
+        double lhs=0;
+        for (int i=0;i<coefficients.length;i++){
+            if (i<binary.length){
+                lhs=lhs+coefficients[i]*binary[i];
+            } else if(i<binary.length+integers.length){
+                lhs=lhs+coefficients[i]*integers[i-binary.length];
+            } else {
+                lhs=lhs+coefficients[i]*scalars[i-binary.length-integers.length];
+            }
+        }
+        return (lhs <= rhs && sense == ConstraintSense.LESSTHAN) || (lhs >= rhs && sense == ConstraintSense.GREATERTHAN) || (lhs == rhs && sense == ConstraintSense.EQUALS);
+    }
 }

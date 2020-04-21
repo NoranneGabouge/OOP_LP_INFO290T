@@ -35,14 +35,24 @@ public class LinearProgram {
     }
 
     public boolean hasFeasiblePoint(int[] binary,int[] integers,double[] scalars) {
-        if ((binary.length==nbBinaryVar)&&(integers.length==nbIntegerVar)&&(scalars.length==nbRealVar)){
-            for (int v : binary) {
-                if ((v < 0) || (v > 1)) {
-                    return false;
-                }
-            }
-            return true;
+        if ((binary.length!=nbBinaryVar)||(integers.length!=nbIntegerVar)||(scalars.length!=nbRealVar)) {
+            return false;
         }
-        return false;
+        for (int v : binary) {
+            if ((v < 0) || (v > 1)) {
+                return false;
+            }
+        }
+        var iterator=this.constraints.iterator();
+        while(iterator.hasNext()){
+            var next=iterator.next();
+            if (next.satisfiedBy(binary,integers,scalars)){
+                iterator.remove();
+            }
+            else{
+                return false;
+            }
+        }
+        return true;
     }
 }
