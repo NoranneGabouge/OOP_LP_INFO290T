@@ -57,8 +57,17 @@ public class LinearProgram {
     }
 
     public LinearProgram relaxation() {
-
-        return this;
+        LinearProgram LPRelaxation=new LinearProgram(0,0,nbBinaryVar+nbIntegerVar+nbRealVar,sense);
+        LPRelaxation.setObjective(objective);
+        for (int i=0; i<nbBinaryVar;i++){
+            var selectBinaryVariable=new double[nbBinaryVar+nbIntegerVar+nbRealVar];
+            selectBinaryVariable[i]=1;
+            Constraint nonnegative=new Constraint(selectBinaryVariable,ConstraintSense.GREATERTHAN, 0);
+            Constraint lessthanOne=new Constraint(selectBinaryVariable,ConstraintSense.LESSTHAN, 1);
+            LPRelaxation.addConstraints(nonnegative);
+            LPRelaxation.addConstraints(lessthanOne);
+        }
+        return LPRelaxation;
     }
 
     @Override
