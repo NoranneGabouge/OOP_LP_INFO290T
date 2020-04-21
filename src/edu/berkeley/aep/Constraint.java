@@ -10,4 +10,8 @@ public class Constraint {
         this.rhs=rhs;
         this.sense=sense;
     }
+
+    public int dimension(){
+        return coefficients.length;
+    }
 }
