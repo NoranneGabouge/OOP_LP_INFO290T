@@ -3,7 +3,9 @@ package edu.berkeley.aep;
 
 //Understands a Linear optimization Program (LP)
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class LinearProgram {
@@ -103,7 +105,4 @@ public class LinearProgram {
         return Integer.hashCode(nbBinaryVar+nbIntegerVar+nbRealVar);
     }
 
-    public LinearProgram dual() {
-        return this;
-    }
 }

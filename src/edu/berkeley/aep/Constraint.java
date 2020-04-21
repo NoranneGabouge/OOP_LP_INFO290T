@@ -1,5 +1,10 @@
 package edu.berkeley.aep;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 public class Constraint {
     private final double[] coefficients;
     private final double rhs;
@@ -10,6 +15,8 @@ public class Constraint {
         this.rhs=rhs;
         this.sense=sense;
     }
+
+
 
     public int dimension(){
         return coefficients.length;
@@ -30,13 +37,6 @@ public class Constraint {
         return (lhs <= rhs && sense == ConstraintSense.LESSTHAN) || (lhs >= rhs && sense == ConstraintSense.GREATERTHAN) || (lhs == rhs && sense == ConstraintSense.EQUALS);
     }
 
-    @Override
-    public boolean equals(Object other) {
-        if (this == other) return true;
-        if (!(other instanceof Constraint)) return false;
-        var otherConstraint=(Constraint) other;
-        return this.isMultipleOf(otherConstraint);
-    }
 
     public boolean isMultipleOf(Constraint other){
         if (other.coefficients.length!=coefficients.length) return false;
@@ -51,8 +51,16 @@ public class Constraint {
         if ((factor!=0)&&(Double.compare(factor*other.rhs,rhs)!=0)) return false;
         if (factor==0) return false;
         if ((factor>0)&&(!(this.sense.equals(other.sense)))) return false;
-        if ((factor<0)&&(this.sense.equals(other.sense))) return false;
-        return true;
+        return (!(factor < 0)) || (!this.sense.equals(other.sense));
+    }
+
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (!(other instanceof Constraint)) return false;
+        var otherConstraint=(Constraint) other;
+        return this.isMultipleOf(otherConstraint);
     }
 
     @Override
