@@ -69,5 +69,31 @@ public class LinearProgramTest {
         assertTrue(LPc.hasFeasiblePoint(new int[]{1,0}, new int[]{6,-1,2}, new double[]{4.5,12.1}));
     }
 
+    @Test
+    /*
+    LPd=max 3x
+    such that x<=2
+    x in R
+     */
+    public void linearRelaxationOfLPdIsEqualToLPd(){
+        LinearProgram LPd=new LinearProgram(0,0,1,Sense.MAX);
+        LPd.setObjective(new double[]{3});
+        Constraint constr1=new Constraint(new double[]{1},ConstraintSense.LESSTHAN, 2);
+        LPd.addConstraints(constr1);
+        assertEquals(LPd,LPd.relaxation());
+    }
+    @Test
+    public void linearRelaxationOfLPdIsEqualToACopyOfLPd(){
+        LinearProgram LPd=new LinearProgram(0,0,1,Sense.MAX);
+        LPd.setObjective(new double[]{3});
+        Constraint constr1=new Constraint(new double[]{1},ConstraintSense.LESSTHAN, 2);
+        LPd.addConstraints(constr1);
+        LinearProgram LPdCopy=new LinearProgram(0,0,1,Sense.MAX);
+        LPdCopy.setObjective(new double[]{3});
+        Constraint constr1Copy=new Constraint(new double[]{1},ConstraintSense.LESSTHAN, 2);
+        LPdCopy.addConstraints(constr1Copy);
+        assertEquals(LPdCopy,LPd.relaxation());
+    }
+
 
 }

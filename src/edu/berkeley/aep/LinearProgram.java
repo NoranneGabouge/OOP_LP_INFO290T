@@ -55,4 +55,8 @@ public class LinearProgram {
         }
         return true;
     }
+
+    public LinearProgram relaxation() {
+        return this;
+    }
 }
