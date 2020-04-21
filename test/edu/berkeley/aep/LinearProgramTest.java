@@ -154,4 +154,36 @@ public class LinearProgramTest {
         LPeRelax.addConstraints(xlessthanOne);
         assertEquals(LPeRelax,LPe.relaxation());
     }
+
+    @Test
+    /*LPf : min of 3x1+5x2-7x3,
+    such that
+    x1+x2-x3<=34
+    -x1+4x2+2x3>=12
+    with  x in R
+    LPfDual : max 34y1+12y2
+    such that
+    y1<=0
+    y2>=0
+    y1-y2=3
+    y1+4y2=5
+    -y1+2y2=-7
+    with y in R
+     */
+    public void theDualOfLPfIsLPfDual(){
+        LinearProgram LPf=new LinearProgram(0,0,3,Sense.MIN);
+        LPf.setObjective(new double[]{3,5,-7});
+        LPf.addConstraints(new Constraint(new double[]{1,1,-1},ConstraintSense.LESSTHAN, 34));
+        LPf.addConstraints(new Constraint(new double[]{-1,4,2},ConstraintSense.GREATERTHAN, 12));
+        LinearProgram LPfDual=new LinearProgram(0,0,2,Sense.MAX);
+        LPfDual.setObjective(new double[]{34,12});
+        LPfDual.addConstraints(new Constraint(new double[]{1,0},ConstraintSense.LESSTHAN, 0));
+        LPfDual.addConstraints(new Constraint(new double[]{0,1},ConstraintSense.GREATERTHAN, 0));
+        LPfDual.addConstraints(new Constraint(new double[]{1,-1},ConstraintSense.EQUALS, 3));
+        LPfDual.addConstraints(new Constraint(new double[]{1,4},ConstraintSense.EQUALS, 5));
+        LPfDual.addConstraints(new Constraint(new double[]{-1,2},ConstraintSense.EQUALS, -7));
+        assertEquals(LPfDual,LPf.dual());
+    }
+
+
 }

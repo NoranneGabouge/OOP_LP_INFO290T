@@ -102,4 +102,8 @@ public class LinearProgram {
     public int hashCode() {
         return Integer.hashCode(nbBinaryVar+nbIntegerVar+nbRealVar);
     }
+
+    public LinearProgram dual() {
+        return this;
+    }
 }
