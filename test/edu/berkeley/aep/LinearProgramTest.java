@@ -114,4 +114,44 @@ public class LinearProgramTest {
         Constraint constr1Copy=new Constraint(new double[]{1},ConstraintSense.LESSTHAN, 2);
         assertEquals(constr1,constr1Copy);
     }
+
+    @Test
+    public void anLPShouldBeEqualToTheLPObtainedAfterChangingTheOrderOfTheConstraints(){
+        LinearProgram LPc=new LinearProgram(2,3,2,Sense.MIN);
+        LPc.setObjective(new double[]{3,2,-1,-4,-5,8,-1});
+        LinearProgram LPcShuffle=new LinearProgram(2,3,2,Sense.MIN);
+        LPcShuffle.setObjective(new double[]{3,2,-1,-4,-5,8,-1});
+        Constraint constr1=new Constraint(new double[]{1,1,0,0,0,0,0},ConstraintSense.LESSTHAN, 1);
+        Constraint constr2=new Constraint(new double[]{0,0,1,-2,1,0,0},ConstraintSense.GREATERTHAN, 5);
+        Constraint constr3=new Constraint(new double[]{0,0,0,10,0,-1,0},ConstraintSense.LESSTHAN, 3);
+        Constraint constr4=new Constraint(new double[]{0,0,0,0,0,0,1},ConstraintSense.GREATERTHAN, 9);
+        LPc.addConstraints(constr1);
+        LPc.addConstraints(constr2);
+        LPc.addConstraints(constr3);
+        LPc.addConstraints(constr4);
+        LPcShuffle.addConstraints(constr3);
+        LPcShuffle.addConstraints(constr1);
+        LPcShuffle.addConstraints(constr4);
+        LPcShuffle.addConstraints(constr2);
+        assertEquals(LPc, LPcShuffle);
+    }
+
+    @Test
+    /*
+    LPe max 3x
+    such that x binary, y integer
+    LPeRelax max 3x
+    such that 0<=x<=1 and x,y in R
+     */
+    public void linearRelaxationOfLPeIsEqualToLPeRelax(){
+        LinearProgram LPe=new LinearProgram(1,1,0,Sense.MAX);
+        LPe.setObjective(new double[]{3});
+        LinearProgram LPeRelax=new LinearProgram(0,0,2,Sense.MAX);
+        LPeRelax.setObjective(new double[]{3});
+        Constraint xnonnegative=new Constraint(new double[]{1,0},ConstraintSense.GREATERTHAN, 0);
+        Constraint xlessthanOne=new Constraint(new double[]{1,0},ConstraintSense.LESSTHAN, 1);
+        LPeRelax.addConstraints(xnonnegative);
+        LPeRelax.addConstraints(xlessthanOne);
+        assertEquals(LPeRelax,LPe.relaxation());
+    }
 }
